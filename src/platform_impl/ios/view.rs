@@ -360,7 +360,7 @@ impl WinitViewController {
     pub(crate) fn set_prefers_home_indicator_auto_hidden(&self, val: bool) {
         self.state.prefers_home_indicator_auto_hidden.set(val);
         let os_capabilities = app_state::os_capabilities();
-        if os_capabilities.home_indicator_hidden {
+        if os_capabilities.home_indicator_hidden && !cfg!(target_os = "tvos") {
             self.setNeedsUpdateOfHomeIndicatorAutoHidden();
         } else {
             os_capabilities.home_indicator_hidden_err_msg("ignoring")
@@ -372,7 +372,7 @@ impl WinitViewController {
             .preferred_screen_edges_deferring_system_gestures
             .set(val);
         let os_capabilities = app_state::os_capabilities();
-        if os_capabilities.defer_system_gestures {
+        if os_capabilities.defer_system_gestures && !cfg!(target_os = "tvos") {
             self.setNeedsUpdateOfScreenEdgesDeferringSystemGestures();
         } else {
             os_capabilities.defer_system_gestures_err_msg("ignoring")
